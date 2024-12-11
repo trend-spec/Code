@@ -1,110 +1,161 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
-
-struct node {
+struct node
+{
     int data;
     struct node *next;
-} * head, *ptr, *newnode, *pre;
+}*newnode,*head,*ptr,*pre;
 
-void insertbeg(int value) {
-    newnode = new node; 
-    newnode->data = value;
-    newnode->next = head;
-    head = newnode; 
+void insert_beg(int item)
+{
+    newnode=new node;
+    newnode->data=item;
+    newnode->next=head;
+    head=newnode;  
 }
-
-void insertend(int value) {
-    newnode = new node;
-    newnode->data = value;
-    newnode->next = NULL;
-
-    if (head == NULL) { 
-        head = newnode;
-    } else {
-        ptr = head;
-        while (ptr->next != NULL) { 
-            ptr = ptr->next;
+void insert_end(int item)
+{
+    newnode= new node;
+    newnode->data=item;
+    if (head==NULL)
+    {
+        newnode->next=head;
+        head=newnode;
+    }
+    else
+    {
+        ptr=head;
+        while (ptr->next!=NULL)
+        {
+            ptr=ptr->next;
         }
-        ptr->next = newnode;
+        ptr->next=newnode;
+        newnode->next=NULL;
     }
 }
-
-void insertloc(int value, int loc) {
-    int c = 0;
-    newnode = new node; 
-    newnode->data = value;
-
-    if (loc == 1) { 
-        newnode->next = head;
-        head = newnode;
-    } else {
-        ptr = head;
-        while (ptr != NULL) {
-            c++;
-            if (c == loc - 1) { 
+void insert_loc(int item,int l)
+{
+    int count=0;
+    newnode=new node;
+    newnode->data=item;
+    if(l==1)
+    {
+        newnode->next=head;
+        head=newnode;
+    }
+    else
+    {
+       ptr=head;
+       while(ptr!=NULL)
+       {
+            count++;
+            if(l==count)
+            {
                 break;
             }
-            pre = ptr;
-            ptr = ptr->next;
-        }
-        if (ptr == NULL && c + 1 < loc) { 
-            cout << "Invalid location!" << endl;
-            delete newnode;
-            return;
-        }
-        newnode->next = ptr->next;
-        ptr->next = newnode;
+            else
+            {
+                pre=ptr;
+                ptr=ptr->next;
+            }
+
+       }
+       newnode->next=ptr;
+       pre->next=newnode;
+       
+       
     }
+
+}
+void display()
+{
+    ptr=head;
+    while(ptr!=NULL)
+    {
+        cout<<ptr->data<<"->";
+        ptr=ptr->next;
+    }
+    cout<<"NULL";
 }
 
-void display() {
-    ptr = head;
-    while (ptr != NULL) {
-        cout << ptr->data << " -> ";
-        ptr = ptr->next;
-    }
-    cout << "NULL" << endl; 
-}
 
-int main() {
-    head = NULL; 
-   int choice;
-   do{
-    cout<<"1.Insertion at begining"<<endl<<"2.Insertion at end"<<endl<<"3.insertion at specific location"<<endl<<"4.Display"<<endl<<"5.Exit"<<endl;
-    cout<<"Enter choice"<<endl;
-    cin>>choice;
-    switch(choice){
-        case 1:
-        cout<<"Enter a value to Insert"<<endl;
-        int val;
-        cin>>val;
- insertbeg(val);
-      
-        break;
-        case 2:
-         cout<<"Enter a value to Insert"<<endl;
-         int value;
-        cin>>val;
-     insertend(value);
-      break;
-      case 3:
-      cout<<"Enter a value to Insert"<<endl;
-       int val1;
-        cin>>val1;
-         cout<<"Enter a location to Insert"<<endl;
-         int loc;
-         cin>>loc;
-         insertloc(val1,loc);
-      break;
-      case 4:
-      display();
-      break;
-      case 5:
-      break;
-      default:
-      cout<<"Invalid  input";
+void search(int key)
+{
+    int c=0;
+    ptr=head;
+    while(ptr!=NULL)
+    {
+        c++;
+        if(ptr->data==key)
+        {
+            cout<<"\n"<<key<<"  is found at location "<<c;
+            break;
+        }
+        else
+        {
+            ptr=ptr->next;
+
+        }
     }
-   }while(choice!=5);
-   
-    return 0;
+        if( ptr==NULL)
+        {
+            cout<<"\n"<<key<<"\n not found.";
+        }
+} 
+int main()
+{
+    int  item,l,ch;
+    do
+    {
+        cout<<"\n 1. Insertion at beginning";
+		cout<<"\n 2. Insertion at end";
+		cout<<"\n 3. Insertion at location";
+		cout<<"\n 4. Display";
+		
+		cout<<"\n 5. Search for an element.";
+		
+		cout<<"\n 6. Exit";
+		cout<<"\n enter your choice:";
+        cin>>ch;
+        switch(ch)
+        {
+            case 1:
+                cout<<"\n Enter data to insert: \n";
+                cin>>item;
+                insert_beg(item);
+                break;
+            
+            case 2:
+                cout<<"\n Enter data to insert: \n";
+                cin>>item;
+                insert_end(item);
+                break;
+
+            case 3:
+                cout<<"\n Enter data to insert: \n";
+                cin>>item;
+                cout<<"\n Enter location at which you want to insert: \n";
+                cin>>l;
+                insert_loc(item,l);
+                break;
+
+            case 4:
+                display();
+                break;
+            
+            
+
+            case 5:
+                cout<<"\n Enter element you want to search:\n";
+                cin>>item;
+                search(item);
+                break;
+            
+            
+        
+        }
+
+    }while(ch!=6);
+    
+
 }
